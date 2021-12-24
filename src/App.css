@@ -1,6 +1,14 @@
 .App {
   text-align: center;
 }
+.Jumbotron {
+  height: 400px;
+
+  background-image: url("./Sketch001.jpg");
+  background-size: 400px;
+  text-align: center;
+  padding: 30px;
+}
 
 .App-logo {
   height: 40vmin;
