@@ -1,3 +1,4 @@
+/* eslint-disable*/
 import "./App.css";
 import {
   Navbar,
@@ -8,7 +9,12 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import React, { useState } from "react";
+import data from "./data.js";
+
 function App() {
+  let [sticker, stickerChange] = useState(data);
+
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -51,6 +57,7 @@ function App() {
       </Navbar>
       <div className="Jumbotron">
         <h1>20% Season off Sale</h1>
+
         <p>
           Welcome to the sticker shop. There is a season sale, so please check
           the notice. thank you.
@@ -58,23 +65,24 @@ function App() {
       </div>
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
-            <img src={require("./Sketch001.jpg")} width="100%" />
-            <h4>상품명</h4>
-            <p>상품설명 & 가격</p>
-          </div>
-          <div className="col-md-4">
-            <img src={require("./Sketch002.jpg")} width="100%" />
-            <h4>상품명</h4>
-            <p>상품설명 & 가격</p>
-          </div>
-          <div className="col-md-4">
-            <img src={require("./Sketch003.jpg")} width="100%" />
-            <h4>상품명</h4>
-            <p>상품설명 & 가격</p>
-          </div>
+          {sticker.map((a, i) => {
+            return <Contents sticker={a} i={i}></Contents>;
+          })}
         </div>
       </div>
+    </div>
+  );
+}
+
+function Contents(props) {
+  return (
+    <div className="col-md-4">
+      <img src={require(`./Sketch00${props.i + 1}.jpg`)} width="100%" />
+
+      <h4>{props.sticker.title}</h4>
+      <p>
+        {props.sticker.content} & {props.sticker.price}
+      </p>
     </div>
   );
 }
