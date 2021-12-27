@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import React, { useState } from "react";
 import data from "./data.js";
+import { Link, Route, Switch } from "react-router-dom";
 
 function App() {
   let [sticker, stickerChange] = useState(data);
@@ -55,21 +56,39 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className="Jumbotron">
-        <h1>20% Season off Sale</h1>
 
-        <p>
-          Welcome to the sticker shop. There is a season sale, so please check
-          the notice. thank you.
-        </p>
-      </div>
-      <div className="container">
-        <div className="row">
-          {sticker.map((a, i) => {
-            return <Contents sticker={a} i={i}></Contents>;
-          })}
+      <Route exact path="/">
+        <div className="Jumbotron">
+          <h1>20% Season off Sale</h1>
+
+          <p>
+            Welcome to the sticker shop. There is a season sale, so please check
+            the notice. thank you.
+          </p>
         </div>
-      </div>
+        <div className="container">
+          <div className="row">
+            {sticker.map((a, i) => {
+              return <Contents sticker={a} i={i} key={i}></Contents>;
+            })}
+          </div>
+        </div>
+      </Route>
+      <Route path="/detail">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <img src={require(`./Sketch001.jpg`)} width="100%" />
+            </div>
+            <div className="col-md-6 mt-4">
+              <h4 className="pt-5">상품명</h4>
+              <p>상품설명</p>
+              <p>120000원</p>
+              <button className="btn btn-danger">주문하기</button>
+            </div>
+          </div>
+        </div>
+      </Route>
     </div>
   );
 }
