@@ -12,6 +12,7 @@ function Detail() {
           <p>상품설명</p>
           <p>120000원</p>
           <button className="btn btn-danger">주문하기</button>
+          <button className="btn">뒤로가기</button>
         </div>
       </div>
     </div>

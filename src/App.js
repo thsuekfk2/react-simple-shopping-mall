@@ -29,13 +29,15 @@ function App() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">Link</Nav.Link>
+              <Nav.Link>
+                <Link to="/">Home</Link>
+              </Nav.Link>
+              <Nav.Link>
+                <Link to="/detail">Detail</Link>
+              </Nav.Link>
               <NavDropdown title="Link" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
-                </NavDropdown.Item>
+                <NavDropdown.Item>Action</NavDropdown.Item>
+                <NavDropdown.Item>Another action</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">
                   Something else here
@@ -58,26 +60,32 @@ function App() {
         </Container>
       </Navbar>
 
-      <Route exact path="/">
-        <div className="Jumbotron">
-          <h1>20% Season off Sale</h1>
+      <Switch>
+        <Route exact path="/">
+          <div className="Jumbotron">
+            <h1>20% Season off Sale</h1>
 
-          <p>
-            Welcome to the sticker shop. There is a season sale, so please check
-            the notice. thank you.
-          </p>
-        </div>
-        <div className="container">
-          <div className="row">
-            {sticker.map((a, i) => {
-              return <Contents sticker={a} i={i} key={i}></Contents>;
-            })}
+            <p>
+              Welcome to the sticker shop. There is a season sale, so please
+              check the notice. thank you.
+            </p>
           </div>
-        </div>
-      </Route>
-      <Route path="/detail">
-        <Detail />
-      </Route>
+          <div className="container">
+            <div className="row">
+              {sticker.map((a, i) => {
+                return <Contents sticker={a} i={i} key={i}></Contents>;
+              })}
+            </div>
+          </div>
+        </Route>
+        <Route path="/detail">
+          <Detail />
+        </Route>
+
+        <Route path="/:id">
+          <div>아무거나 보여주기</div>
+        </Route>
+      </Switch>
     </div>
   );
 }
