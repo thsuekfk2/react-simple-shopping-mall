@@ -15,6 +15,16 @@ import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
 
 function App() {
+  function PriceSorting() {
+    var newArray = [...sticker];
+
+    newArray.sort((a, b) => {
+      return a.price - b.price;
+    });
+    console.log(newArray);
+    stickerChange(newArray);
+  }
+
   let [sticker, stickerChange] = useState(data);
 
   return (
@@ -29,12 +39,12 @@ function App() {
               style={{ maxHeight: "100px" }}
               navbarScroll
             >
-              <Nav.Link>
+              <Nav>
                 <Link to="/">Home</Link>
-              </Nav.Link>
-              <Nav.Link>
+              </Nav>
+              <Nav>
                 <Link to="/detail">Detail</Link>
-              </Nav.Link>
+              </Nav>
               <NavDropdown title="Link" id="navbarScrollingDropdown">
                 <NavDropdown.Item>Action</NavDropdown.Item>
                 <NavDropdown.Item>Another action</NavDropdown.Item>
@@ -70,6 +80,9 @@ function App() {
               check the notice. thank you.
             </p>
           </div>
+          <button className="btn" onClick={PriceSorting}>
+            가격정렬
+          </button>
           <div className="container">
             <div className="row">
               {sticker.map((a, i) => {
@@ -78,8 +91,8 @@ function App() {
             </div>
           </div>
         </Route>
-        <Route path="/detail">
-          <Detail />
+        <Route path="/detail/:id">
+          <Detail sticker={sticker} />
         </Route>
 
         <Route path="/:id">
@@ -93,7 +106,10 @@ function App() {
 function Contents(props) {
   return (
     <div className="col-md-4">
-      <img src={require(`./Sketch00${props.i + 1}.jpg`)} width="100%" />
+      <img
+        src={require(`./Sketch00${props.sticker.id + 1}.jpg`)}
+        width="100%"
+      />
 
       <h4>{props.sticker.title}</h4>
       <p>
