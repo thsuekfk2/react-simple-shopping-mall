@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Styled from "styled-components";
 import "./Detail.scss";
@@ -16,15 +16,28 @@ function Detail(props) {
   let history = useHistory();
   let { id } = useParams();
   let realID = props.sticker[id].id;
+  let [modal, modalChange] = useState(true);
+  let [inputData, inputChange] = useState("");
+
+  useEffect(() => {
+    console.log("안녕");
+    //컴포넌트가 보일 때, 업데이가 될 때 특정 코드 실행 가능
+    let timer = setTimeout(() => {
+      modalChange(false);
+    }, 2000);
+  }, []);
 
   return (
     <div className="container">
       <Box>
         <Title className="navy">Detail</Title>
       </Box>
-      <div className="my-alert">
-        <p>재고가 얼마 남지 않았습니다</p>
-      </div>
+      <input
+        onChange={(e) => {
+          inputChange(e.target.value);
+        }}
+      />
+      {modal == true ? <Modal /> : modal == false}
       <div className="row">
         <div className="col-md-6">
           <img
@@ -48,6 +61,13 @@ function Detail(props) {
           </button>
         </div>
       </div>
+    </div>
+  );
+}
+function Modal() {
+  return (
+    <div className="my-alert">
+      <p>재고가 얼마 남지 않았습니다</p>
     </div>
   );
 }
