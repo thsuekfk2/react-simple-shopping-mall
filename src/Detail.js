@@ -20,11 +20,12 @@ function Detail(props) {
   let [inputData, inputChange] = useState("");
 
   useEffect(() => {
-    console.log("안녕");
-    //컴포넌트가 보일 때, 업데이가 될 때 특정 코드 실행 가능
     let timer = setTimeout(() => {
       modalChange(false);
     }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -37,7 +38,7 @@ function Detail(props) {
           inputChange(e.target.value);
         }}
       />
-      {modal == true ? <Modal /> : modal == false}
+      {modal === true ? <Modal /> : modal === false}
       <div className="row">
         <div className="col-md-6">
           <img

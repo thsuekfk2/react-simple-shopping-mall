@@ -8,11 +8,13 @@ import {
   Form,
   FormControl,
   Button,
+  Spinner,
 } from "react-bootstrap";
 import React, { useState } from "react";
 import data from "./data.js";
 import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
+import axios from "axios";
 
 function App() {
   function PriceSorting() {
@@ -26,6 +28,7 @@ function App() {
   }
 
   let [sticker, stickerChange] = useState(data);
+  let [loding, lodingChange] = useState(false);
 
   return (
     <div className="App">
@@ -90,6 +93,39 @@ function App() {
               })}
             </div>
           </div>
+          {loding === true ? (
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          ) : null}
+
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              lodingChange(true);
+              axios
+                .get("https://codingapple1.github.io/shop/data2.json")
+                .then((res) => {
+                  lodingChange(false);
+                  console.log(res.data);
+                  console.log("성공했어요");
+                  var newArray = [...sticker];
+                  let result = res.data;
+
+                  result.map((a) => {
+                    newArray.push(a);
+                  });
+
+                  stickerChange(newArray);
+                  console.log(sticker);
+                })
+                .catch(() => {
+                  console.log("실패했어요");
+                });
+            }}
+          >
+            더보기
+          </button>
         </Route>
         <Route path="/detail/:id">
           <Detail sticker={sticker} />
@@ -107,7 +143,7 @@ function Contents(props) {
   return (
     <div className="col-md-4">
       <img
-        src={require(`./Sketch00${props.sticker.id + 1}.jpg`)}
+        //src={require(`./Sketch00${props.sticker.id + 1}.jpg`)}
         width="100%"
       />
 
