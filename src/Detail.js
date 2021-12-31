@@ -51,7 +51,17 @@ function Detail(props) {
           <p>{props.sticker[realID].content}</p>
           <p>{props.sticker[realID].price}</p>
           <p>{props.sticker[id].id}</p>
-          <button className="btn btn-danger">Order</button>
+          <Info inventory={props.inventory} />
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              let newArray = [...props.inventory];
+              newArray[0]--;
+              props.inventoryChange(newArray);
+            }}
+          >
+            Order
+          </button>
           <button
             className="btn"
             onClick={() => {
@@ -71,6 +81,10 @@ function Modal() {
       <p>재고가 얼마 남지 않았습니다</p>
     </div>
   );
+}
+
+function Info(props) {
+  return <p>재고{props.inventory[0]}</p>;
 }
 
 export default Detail;

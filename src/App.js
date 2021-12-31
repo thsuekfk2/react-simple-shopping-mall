@@ -29,6 +29,7 @@ function App() {
 
   let [sticker, stickerChange] = useState(data);
   let [loding, lodingChange] = useState(false);
+  let [inventory, inventoryChange] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -107,16 +108,8 @@ function App() {
                 .get("https://codingapple1.github.io/shop/data2.json")
                 .then((res) => {
                   lodingChange(false);
-                  console.log(res.data);
-                  console.log("성공했어요");
-                  var newArray = [...sticker];
-                  let result = res.data;
 
-                  result.map((a) => {
-                    newArray.push(a);
-                  });
-
-                  stickerChange(newArray);
+                  stickerChange([...sticker, ...res.data]);
                   console.log(sticker);
                 })
                 .catch(() => {
@@ -128,7 +121,11 @@ function App() {
           </button>
         </Route>
         <Route path="/detail/:id">
-          <Detail sticker={sticker} />
+          <Detail
+            sticker={sticker}
+            inventory={inventory}
+            inventoryChange={inventoryChange}
+          />
         </Route>
 
         <Route path="/:id">
