@@ -10,11 +10,14 @@ import {
   Button,
   Spinner,
 } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import data from "./data.js";
 import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
 import axios from "axios";
+
+export let inventoryContext = React.createContext();
+//React.createContext()는 같은 변수값을 공유할 범위를 생성해주는 문법
 
 function App() {
   function PriceSorting() {
@@ -88,44 +91,48 @@ function App() {
             가격정렬
           </button>
           <div className="container">
-            <div className="row">
-              {sticker.map((a, i) => {
-                return <Contents sticker={a} i={i} key={i}></Contents>;
-              })}
-            </div>
+            <inventoryContext.Provider value={inventory}>
+              <div className="row">
+                {sticker.map((a, i) => {
+                  return <Contents sticker={a} i={i} key={i}></Contents>;
+                })}
+              </div>
+            </inventoryContext.Provider>
+            {loding === true ? (
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : null}
+
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                lodingChange(true);
+                axios
+                  .get("https://codingapple1.github.io/shop/data2.json")
+                  .then((res) => {
+                    lodingChange(false);
+
+                    stickerChange([...sticker, ...res.data]);
+                    console.log(sticker);
+                  })
+                  .catch(() => {
+                    console.log("실패했어요");
+                  });
+              }}
+            >
+              더보기
+            </button>
           </div>
-          {loding === true ? (
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          ) : null}
-
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              lodingChange(true);
-              axios
-                .get("https://codingapple1.github.io/shop/data2.json")
-                .then((res) => {
-                  lodingChange(false);
-
-                  stickerChange([...sticker, ...res.data]);
-                  console.log(sticker);
-                })
-                .catch(() => {
-                  console.log("실패했어요");
-                });
-            }}
-          >
-            더보기
-          </button>
         </Route>
         <Route path="/detail/:id">
-          <Detail
-            sticker={sticker}
-            inventory={inventory}
-            inventoryChange={inventoryChange}
-          />
+          <inventoryContext.Provider value={inventory}>
+            <Detail
+              sticker={sticker}
+              inventory={inventory}
+              inventoryChange={inventoryChange}
+            />
+          </inventoryContext.Provider>
         </Route>
 
         <Route path="/:id">
@@ -137,6 +144,8 @@ function App() {
 }
 
 function Contents(props) {
+  let inventory = useContext(inventoryContext);
+
   return (
     <div className="col-md-4">
       <img
@@ -148,8 +157,14 @@ function Contents(props) {
       <p>
         {props.sticker.content} & {props.sticker.price}
       </p>
+      {inventory[props.i]}
+      <Test></Test>
     </div>
   );
+}
+function Test() {
+  let inventory = useContext(inventoryContext);
+  return <p>재고 : {inventory[0]}</p>;
 }
 
 export default App;

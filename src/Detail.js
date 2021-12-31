@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Styled from "styled-components";
 import "./Detail.scss";
+import { inventoryContext } from "./App.js"; //App.js에서 가져온 범위
+import { Nav } from "react-bootstrap";
+import { CSSTransition } from "react-transition-group";
 
 let Box = Styled.div`
   padding : 20px;
@@ -13,11 +16,10 @@ let Title = Styled.h4`
 `;
 
 function Detail(props) {
-  let history = useHistory();
-  let { id } = useParams();
-  let realID = props.sticker[id].id;
   let [modal, modalChange] = useState(true);
   let [inputData, inputChange] = useState("");
+  let [tab, tabChange] = useState(0);
+  let [answitch, answitchChange] = useState(false);
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -27,6 +29,11 @@ function Detail(props) {
       clearTimeout(timer);
     };
   }, []);
+
+  let history = useHistory();
+  let { id } = useParams();
+  let realID = props.sticker[id].id;
+  let inventory = useContext(inventoryContext);
 
   return (
     <div className="container">
@@ -52,6 +59,7 @@ function Detail(props) {
           <p>{props.sticker[realID].price}</p>
           <p>{props.sticker[id].id}</p>
           <Info inventory={props.inventory} />
+
           <button
             className="btn btn-danger"
             onClick={() => {
@@ -72,9 +80,48 @@ function Detail(props) {
           </button>
         </div>
       </div>
+
+      <Nav className="mt-5" fill variant="tabs" defaultActiveKey="link-0">
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-0"
+            onClick={() => {
+              answitchChange(false);
+              tabChange(0);
+            }}
+          >
+            NavLink
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            eventKey="link-1"
+            onClick={() => {
+              answitchChange(false);
+              tabChange(1);
+            }}
+          >
+            Link
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <CSSTransition in={answitch} classNames="boom" timeout={500}>
+        <TabContent tab={tab} answitchChange={answitchChange} />
+      </CSSTransition>
     </div>
   );
 }
+function TabContent(props) {
+  useEffect(() => {
+    props.answitchChange(true);
+  });
+  if (props.tab === 0) {
+    return <div>0번째 내용입니다.</div>;
+  } else if (props.tab === 1) {
+    return <div>1번째 내용입니다.</div>;
+  }
+}
+
 function Modal() {
   return (
     <div className="my-alert">
