@@ -7,12 +7,20 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
 let defaltState = [
   { id: 0, name: "멋진스티커", quan: 2 },
   { id: 1, name: "예쁜스티커", quan: 4 },
 ];
+
+function reducer2(state = true, action) {
+  if (action.type === "닫기") {
+    return false;
+  } else {
+    return state;
+  }
+}
 
 function reducer(state = defaltState, action) {
   let copy = [...defaltState];
@@ -26,7 +34,7 @@ function reducer(state = defaltState, action) {
     return copy;
   } else return state;
 }
-let store = createStore(reducer);
+let store = createStore(combineReducers({ reducer, reducer2 }));
 
 ReactDOM.render(
   <React.StrictMode>
