@@ -15,6 +15,7 @@ import data from "./data.js";
 import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
 import axios from "axios";
+import Cart from "./Cart.js";
 
 export let inventoryContext = React.createContext();
 //React.createContext()는 같은 변수값을 공유할 범위를 생성해주는 문법
@@ -135,8 +136,8 @@ function App() {
           </inventoryContext.Provider>
         </Route>
 
-        <Route path="/:id">
-          <div>아무거나 보여주기</div>
+        <Route path="/cart">
+          <Cart />
         </Route>
       </Switch>
     </div>
