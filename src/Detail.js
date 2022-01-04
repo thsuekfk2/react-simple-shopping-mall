@@ -5,6 +5,7 @@ import "./Detail.scss";
 import { inventoryContext } from "./App.js"; //App.js에서 가져온 범위
 import { Nav } from "react-bootstrap";
 import { CSSTransition } from "react-transition-group";
+import { connect } from "react-redux";
 
 let Box = Styled.div`
   padding : 20px;
@@ -63,9 +64,16 @@ function Detail(props) {
           <button
             className="btn btn-danger"
             onClick={() => {
-              let newArray = [...props.inventory];
-              newArray[0]--;
-              props.inventoryChange(newArray);
+              props.dispatch({
+                type: "장바구니담기",
+                payload: {
+                  id: props.sticker[id].id,
+                  name: props.sticker[realID].title,
+                  quan: 1,
+                },
+              });
+
+              history.push("/cart");
             }}
           >
             Order
@@ -115,6 +123,7 @@ function TabContent(props) {
   useEffect(() => {
     props.answitchChange(true);
   });
+
   if (props.tab === 0) {
     return <div>0번째 내용입니다.</div>;
   } else if (props.tab === 1) {
@@ -134,4 +143,11 @@ function Info(props) {
   return <p>재고{props.inventory[0]}</p>;
 }
 
-export default Detail;
+function state를props화(state) {
+  return {
+    state: state.reducer,
+    close: state.reducer2,
+  };
+}
+
+export default connect(state를props화)(Detail);

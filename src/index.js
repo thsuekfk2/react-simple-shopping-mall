@@ -23,16 +23,22 @@ function reducer2(state = true, action) {
 }
 
 function reducer(state = defaltState, action) {
-  let copy = [...defaltState];
-  if (action.type === "수량증가") {
+  if (action.type === "장바구니담기") {
+    let copy = [...state];
+    copy.push(action.payload);
+    return copy;
+  } else if (action.type === "수량증가") {
+    let copy = [...state];
     copy[0].quan++;
     return copy;
   } else if (action.type === "수량감소") {
+    let copy = [...state];
     let copyQuan = copy[0].quan;
     0 >= copyQuan ? (copyQuan = 0) : copy[0].quan--;
-
     return copy;
-  } else return state;
+  } else {
+    return state;
+  }
 }
 let store = createStore(combineReducers({ reducer, reducer2 }));
 
