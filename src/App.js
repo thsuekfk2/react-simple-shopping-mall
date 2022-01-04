@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import React, { useContext, useState } from "react";
 import data from "./data.js";
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, useHistory } from "react-router-dom";
 import Detail from "./Detail.js";
 import axios from "axios";
 import Cart from "./Cart.js";
@@ -146,11 +146,16 @@ function App() {
 
 function Contents(props) {
   let inventory = useContext(inventoryContext);
-
+  let history = useHistory();
   return (
-    <div className="col-md-4">
+    <div
+      className="col-md-4"
+      onClick={() => {
+        history.push("/detail/" + props.sticker.id);
+      }}
+    >
       <img
-        //src={require(`./Sketch00${props.sticker.id + 1}.jpg`)}
+        src={require(`./Sketch00${props.sticker.id + 1}.jpg`)}
         width="100%"
       />
 
