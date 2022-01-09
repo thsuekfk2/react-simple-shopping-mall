@@ -13,7 +13,9 @@ function Cart(props) {
             <th>#</th>
             <th>상품명</th>
             <th>수량</th>
-            <th>변경</th>
+            <th>+</th>
+            <th>-</th>
+            <th>삭제</th>
           </tr>
         </thead>
         <tbody>
@@ -49,6 +51,20 @@ function Cart(props) {
                     }}
                   >
                     -
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      dispatch({
+                        type: "삭제",
+                        payload: {
+                          index: i,
+                        },
+                      });
+                    }}
+                  >
+                    X
                   </button>
                 </td>
               </tr>

@@ -34,6 +34,7 @@ function App() {
   let [sticker, stickerChange] = useState(data);
   let [loding, lodingChange] = useState(false);
   let [inventory, inventoryChange] = useState([10, 11, 12]);
+  let [재고입력, 재고입력수정] = useState("");
 
   return (
     <div className="App">
@@ -132,6 +133,8 @@ function App() {
               sticker={sticker}
               inventory={inventory}
               inventoryChange={inventoryChange}
+              재고입력={재고입력}
+              재고입력수정={재고입력수정}
             />
           </inventoryContext.Provider>
         </Route>

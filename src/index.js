@@ -27,14 +27,36 @@ function reducer(state = defaltState, action) {
     let foundIndex = state.findIndex((a) => {
       return a.id === action.payload.id;
     });
+
     if (foundIndex >= 0) {
+      //이미 배열에 있어
       let copy = [...state];
-      copy[foundIndex].quan++;
-      return copy;
+      if (action.payload.quan !== "") {
+        //input 빈값이 아니야
+        copy[foundIndex].quan = action.payload.quan;
+
+        return copy;
+      } else {
+        //input 빈값이야
+
+        copy[foundIndex].quan++;
+        return copy;
+      }
     } else {
+      //배열에 없어서 새로 push
+
       let copy = [...state];
-      copy.push(action.payload);
-      return copy;
+      if (action.payload.quan !== "") {
+        //input 빈값이 아니야
+        copy.push(action.payload);
+
+        return copy;
+      } else {
+        //input 빈값이야
+        action.payload.quan++;
+        copy.push(action.payload);
+        return copy;
+      }
     }
   } else if (action.type === "수량증가") {
     let copy = [...state];
@@ -44,6 +66,10 @@ function reducer(state = defaltState, action) {
     let copy = [...state];
     let copyQuan = copy[action.payload.id].quan;
     0 >= copyQuan ? (copyQuan = 0) : copy[action.payload.id].quan--;
+    return copy;
+  } else if (action.type === "삭제") {
+    let copy = [...state];
+    copy.splice(action.payload.index, 1);
     return copy;
   } else {
     return state;

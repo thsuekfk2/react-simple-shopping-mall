@@ -63,7 +63,12 @@ function Detail(props) {
           <p>{props.sticker[realID].price}</p>
           <p>{props.sticker[id].id}</p>
           <Info inventory={props.inventory} />
-
+          <input
+            className="input"
+            onChange={(e) => {
+              props.재고입력수정(e.target.value);
+            }}
+          />
           <button
             className="btn btn-danger"
             onClick={() => {
@@ -72,7 +77,7 @@ function Detail(props) {
                 payload: {
                   id: props.sticker[id].id,
                   name: props.sticker[realID].title,
-                  quan: 1,
+                  quan: props.재고입력,
                 },
               });
 

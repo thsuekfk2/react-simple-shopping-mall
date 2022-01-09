@@ -33,3 +33,12 @@ $mainColor: #0e0030;
   opacity: 1;
   transition: all 500ms;
 }
+
+.input {
+  display: block;
+  width: 100%;
+  margin: auto;
+  background-color: #eeeeee;
+  border-radius: 5px;
+  max-width: 80px;
+}
