@@ -17,7 +17,7 @@ function Cart(props) {
           </tr>
         </thead>
         <tbody>
-          {state.map((a, i) => {
+          {state.reducer.map((a, i) => {
             return (
               <tr key={i}>
                 <td>{i}</td>
@@ -26,7 +26,12 @@ function Cart(props) {
                 <td>
                   <button
                     onClick={() => {
-                      dispatch({ type: "수량증가" });
+                      dispatch({
+                        type: "수량증가",
+                        payload: {
+                          id: i,
+                        },
+                      });
                     }}
                   >
                     +
@@ -35,7 +40,12 @@ function Cart(props) {
                 <td>
                   <button
                     onClick={() => {
-                      dispatch({ type: "수량감소" });
+                      dispatch({
+                        type: "수량감소",
+                        payload: {
+                          id: i,
+                        },
+                      });
                     }}
                   >
                     -

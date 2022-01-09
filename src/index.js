@@ -10,8 +10,8 @@ import { Provider } from "react-redux";
 import { combineReducers, createStore } from "redux";
 
 let defaltState = [
-  { id: 0, name: "멋진스티커", quan: 2 },
-  { id: 1, name: "예쁜스티커", quan: 4 },
+  { id: 1111, name: "멋진스티커", quan: 2 },
+  { id: 22222, name: "예쁜스티커", quan: 4 },
 ];
 
 function reducer2(state = true, action) {
@@ -24,17 +24,26 @@ function reducer2(state = true, action) {
 
 function reducer(state = defaltState, action) {
   if (action.type === "장바구니담기") {
-    let copy = [...state];
-    copy.push(action.payload);
-    return copy;
+    let foundIndex = state.findIndex((a) => {
+      return a.id === action.payload.id;
+    });
+    if (foundIndex >= 0) {
+      let copy = [...state];
+      copy[foundIndex].quan++;
+      return copy;
+    } else {
+      let copy = [...state];
+      copy.push(action.payload);
+      return copy;
+    }
   } else if (action.type === "수량증가") {
     let copy = [...state];
-    copy[0].quan++;
+    copy[action.payload.id].quan++;
     return copy;
   } else if (action.type === "수량감소") {
     let copy = [...state];
-    let copyQuan = copy[0].quan;
-    0 >= copyQuan ? (copyQuan = 0) : copy[0].quan--;
+    let copyQuan = copy[action.payload.id].quan;
+    0 >= copyQuan ? (copyQuan = 0) : copy[action.payload.id].quan--;
     return copy;
   } else {
     return state;
