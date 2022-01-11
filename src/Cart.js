@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, memo } from "react";
 import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -84,9 +84,30 @@ function Cart(props) {
           </button>
         </div>
       ) : null}
+      <Parent 이름="혜삔" 나이="25"></Parent>
     </div>
   );
 }
-
+function Parent(props) {
+  return (
+    <div>
+      <Child1 이름={props.이름}></Child1>
+      <Child2 나이={props.나이}></Child2>
+    </div>
+  );
+}
+function Child1() {
+  useEffect(() => {
+    console.log("랜더링됨1");
+  });
+  return <div>111</div>;
+}
+let Child2 = memo(function () {
+  useEffect(() => {
+    console.log("랜더링됨2");
+  });
+  return <div>222</div>;
+});
 //export default connect(state를props화)(Cart);
+
 export default Cart;
