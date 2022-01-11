@@ -10,12 +10,15 @@ import {
   Button,
   Spinner,
 } from "react-bootstrap";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, lazy, Suspense } from "react";
 import data from "./data.js";
 import { Link, Route, Switch, useHistory } from "react-router-dom";
-import Detail from "./Detail.js";
+//import Detail from "./Detail.js";
 import axios from "axios";
 import Cart from "./Cart.js";
+let Detail = lazy(() => {
+  return import("./Detail.js");
+});
 
 export let inventoryContext = React.createContext();
 //React.createContext()는 같은 변수값을 공유할 범위를 생성해주는 문법
@@ -129,13 +132,15 @@ function App() {
         </Route>
         <Route path="/detail/:id">
           <inventoryContext.Provider value={inventory}>
-            <Detail
-              sticker={sticker}
-              inventory={inventory}
-              inventoryChange={inventoryChange}
-              재고입력={재고입력}
-              재고입력수정={재고입력수정}
-            />
+            <Suspense fallback={<div>로딩중이에요</div>}>
+              <Detail
+                sticker={sticker}
+                inventory={inventory}
+                inventoryChange={inventoryChange}
+                재고입력={재고입력}
+                재고입력수정={재고입력수정}
+              />
+            </Suspense>
           </inventoryContext.Provider>
         </Route>
 
