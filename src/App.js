@@ -38,7 +38,6 @@ function App() {
   let [loding, lodingChange] = useState(false);
   let [inventory, inventoryChange] = useState([10, 11, 12]);
   let [재고입력, 재고입력수정] = useState("");
-
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">

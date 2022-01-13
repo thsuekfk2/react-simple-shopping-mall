@@ -25,6 +25,27 @@ function Detail(props) {
   let [tab, tabChange] = useState(0);
   let [answitch, answitchChange] = useState(false);
 
+  let history = useHistory();
+  let { id } = useParams();
+  let realID = props.sticker[id].id;
+  let inventory = useContext(inventoryContext);
+
+  useEffect(() => {
+    var arr = localStorage.getItem("watched");
+    if (arr === null) {
+      arr = [];
+    } else {
+      arr = JSON.parse(arr);
+    }
+
+    arr.push(id);
+    arr = new Set(arr); //중복제거
+    arr = [...arr]; //괄호 벗기기
+
+    localStorage.setItem("watched", JSON.stringify(arr));
+    console.log(arr);
+  }, []); //[] 넣으면 재렌더링시 실행 x
+
   useEffect(() => {
     let timer = setTimeout(() => {
       modalChange(false);
@@ -33,11 +54,6 @@ function Detail(props) {
       clearTimeout(timer);
     };
   }, []);
-
-  let history = useHistory();
-  let { id } = useParams();
-  let realID = props.sticker[id].id;
-  let inventory = useContext(inventoryContext);
 
   return (
     <div className="container">
